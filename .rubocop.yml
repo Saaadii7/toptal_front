@@ -45,6 +45,8 @@ Style/Documentation:
   Exclude:
     - 'spec/**/*'
     - 'test/**/*'
+    - 'app/**/*'
+    - 'db/**/*'
 
 Metrics/CyclomaticComplexity:
   Exclude:
@@ -52,8 +54,9 @@ Metrics/CyclomaticComplexity:
 
 Metrics/PerceivedComplexity:
   Exclude:
-    - 'bin/*'
+    - 'bin/**/*'
 
 Layout/LineLength:
   Exclude:
-    - 'bin/*'
+    - 'bin/**/*'
+    - 'config/**/*'

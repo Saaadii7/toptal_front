@@ -6,9 +6,9 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 ruby '3.1.0'
 gem 'rails', '~> 7.0.1'
 
+gem 'devise'
 gem 'pg', '~> 1.1'
 gem 'puma', '~> 5.0'
-gem 'devise'
 
 gem 'bootsnap', require: false
 gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw jruby]
@@ -27,9 +27,9 @@ group :development do
 end
 
 group :test do
+  gem 'factory_bot', '~> 6.2.0'
   gem 'rspec-rails', '~> 5.0.0'
   gem 'rubocop-rspec'
   gem 'shoulda-matchers', '~> 5.0'
-  gem 'factory_bot', '~> 6.2.0'
   # gem 'simplecov', require: false
 end
