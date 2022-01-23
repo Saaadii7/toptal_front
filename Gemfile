@@ -11,6 +11,10 @@ gem 'pg', '~> 1.1'
 gem 'puma', '~> 5.0'
 
 gem 'bootsnap', require: false
+gem 'cancancan'
+gem 'groupdate'
+gem 'jsonapi-serializer'
+gem 'pagy', '~> 3.5'
 gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw jruby]
 
 group :development, :test do
@@ -19,6 +23,7 @@ group :development, :test do
 end
 
 group :development do
+  gem 'byebug'
   gem 'rubocop'
   gem 'rubocop-performance'
   gem 'rubocop-rails'
