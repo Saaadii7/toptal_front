@@ -6,13 +6,7 @@ import { Router } from 'react-router-dom'
 const apiUrl = process.env.REACT_APP_API_URL;
 
 const checkStatus = (response) => {
-  if (response.status == 200) {
-    return response.data;
-  } else {
-    const error = new Error(response.status);
-    error.response = response;
-    return Promise.reject(error);
-  }
+  return response.data;
 };
 
 const handleError = (error) => {
@@ -74,31 +68,31 @@ class ApiClient {
   get(path, data, token) {
     const url = withQuery(this.apiUrl + path, data);
     const config = this.setHeader({ ...this.config, method: "GET" }, token);
-    return axios.get(url, { headers: config.headers }).then(checkStatus).catch(handleError);
+    return axios.get(url, config).then(checkStatus).catch(handleError);
   }
 
   post(path, data, token) {
     const url = this.apiUrl + path;
-    const config = this.setHeader({ ...this.config, method: "POST", body: data }, token);
-    return axios.post(url, config.body, config.headers).then(checkStatus).catch(handleError);
-  }
-
-  delete(path, data, token) {
-    const url = this.apiUrl + path;
-    const config = this.setHeader({ ...this.config, method: "DELETE", body: data }, token);
-    return axios.delete(url, config.body, config.headers).then(checkStatus).catch(handleError);
+    const config = this.setHeader({ ...this.config, method: "POST" }, token);
+    return axios.post(url, data, config).then(checkStatus).catch(handleError);
   }
 
   patch(path, data, token) {
     const url = this.apiUrl + path;
-    const config = this.setHeader({ ...this.config, method: "PATCH", body: data }, token);
-    return axios.patch(url, config.body, config.headers).then(checkStatus).catch(handleError);
+    const config = this.setHeader({ ...this.config, method: "PATCH" }, token);
+    return axios.patch(url, data, config).then(checkStatus).catch(handleError);
   }
 
   put(path, data, token) {
     const url = this.apiUrl + path;
-    const config = this.setHeader({ ...this.config, method: "PUT", body: data }, token);
-    return axios.put(url, config.body, config.headers).then(checkStatus).catch(handleError);
+    const config = this.setHeader({ ...this.config, method: "PUT" }, token);
+    return axios.put(url, data, config).then(checkStatus).catch(handleError);
+  }
+
+  delete(path, data, token) {
+    const url = this.apiUrl + path;
+    const config = this.setHeader({ ...this.config, method: "DELETE" }, token);
+    return axios.delete(url, config).then(checkStatus).catch(handleError);
   }
 }
 

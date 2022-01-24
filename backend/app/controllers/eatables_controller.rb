@@ -7,7 +7,7 @@ class EatablesController < ApplicationController
   def index
     options = {}
 
-    items = params[:items] || 10
+    items = params[:items] || 100
     page = params[:page] || 1
 
     # filtered_users = @eatables.ransack(params[:query]).result(distinct: true)

@@ -6,58 +6,115 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
+import Grid from '@mui/material/Grid';
 import { Layout } from '../Layout';
-import { all } from '../../services/eatable'
+import moment from 'moment';
+import IconButton from '@mui/material/IconButton';
+import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 
-function createData(name, calories, fat, carbs, protein) {
-  return { name, calories, fat, carbs, protein };
+import Button from '@mui/material/Button';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
+
+import ModeEditIcon from '@mui/icons-material/ModeEdit';
+import DeleteIcon from '@mui/icons-material/Delete';
+
+import { all, destroy } from '../../services/eatable'
+
+const formatDate = (date) => {
+  return moment(date).format('MMM DD, YYYY hh:mm a')
 }
-
-const rows = [
-  createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-  createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-  createData('Eclair', 262, 16.0, 24, 6.0),
-  createData('Cupcake', 305, 3.7, 67, 4.3),
-  createData('Gingerbread', 356, 16.0, 49, 3.9),
-];
 
 const EatableTable = () => {
   const [eatables, seteatables] = useState([]);
+  const [open, setOpen] = React.useState(false);
+  const [eatableId, setEatableId] = React.useState(null);
+
   useEffect(() => {
     async function fetchEatables() {
       let response = await all();
       seteatables(response.data)
-      console.log('=-=-=-=-=-=', response)
     }
     fetchEatables()
   }, [])
 
+  const deleteEatable = async () => {
+    await destroy(eatableId)
+    seteatables(eatables.filter(elem => elem.id !== eatableId))
+    setOpen(false);
+  }
+
+  const openDeleteEatable = async (id) => {
+    setEatableId(id)
+    setOpen(true)
+  }
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+
   return (
-    <TableContainer component={Paper}>
-      <Table sx={{ minWidth: 650 }} aria-label="simple table">
-        <TableHead>
-          <TableRow>
-            <TableCell>Name</TableCell>
-            <TableCell align="right">Calories</TableCell>
-            <TableCell align="right">Eating Time&nbsp;(date)</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {rows.map((row) => (
-            <TableRow
-              key={row.name}
-              sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-            >
-              <TableCell component="th" scope="row">
-                {row.name}
-              </TableCell>
-              <TableCell align="right">{row.calories}</TableCell>
-              <TableCell align="right">{row.protein}</TableCell>
+    <Grid container spacing={1}>
+      <Dialog
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">
+          {"Confirm to delete Eatable?"}
+        </DialogTitle>
+        <DialogActions>
+          <Button onClick={handleClose}>Disagree</Button>
+          <Button onClick={deleteEatable} autoFocus>
+            Agree
+          </Button>
+        </DialogActions>
+      </Dialog>
+
+      <IconButton color="primary" href="/eatables/new" aria-label="Add Eatable">
+        <AddShoppingCartIcon />
+      </IconButton>
+      <TableContainer component={Paper}>
+        <Table sx={{ minWidth: 650 }} aria-label="simple table">
+          <TableHead>
+            <TableRow>
+              <TableCell>Name</TableCell>
+              <TableCell align="right">Calories</TableCell>
+              <TableCell align="right">Eating Time&nbsp;(date)</TableCell>
+              <TableCell align="right">Actions</TableCell>
             </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
+          </TableHead>
+          <TableBody>
+            {eatables.map((row) => (
+              <TableRow
+                key={row.id}
+                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+              >
+                <TableCell component="th" scope="row">
+                  {row.attributes.name}
+                </TableCell>
+                <TableCell align="right">{row.attributes.calorie}</TableCell>
+                <TableCell align="right">{formatDate(row.attributes.eating_time)}</TableCell>
+                <TableCell align="right">
+                  <IconButton color="primary" href={`/eatables/${row.id}/edit`} aria-label="Edit Eatable">
+                    <ModeEditIcon />
+                  </IconButton>
+                  <IconButton color="primary" aria-label="Delete Eatable" onClick={()=>openDeleteEatable(row.id)}>
+                    <DeleteIcon />
+                  </IconButton>
+
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+    </Grid>
   );
 }
 

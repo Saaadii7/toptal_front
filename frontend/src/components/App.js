@@ -14,6 +14,8 @@ import NotFound from './NotFound';
 import Login from './Login';
 import Dashboard from './Dashboard';
 import EatableTable from './Eatable/table';
+import NewEatableForm from './Eatable/new';
+import EditEatableForm from './Eatable/edit';
 
 // import login from '../services/auth'
 
@@ -23,6 +25,8 @@ function App() {
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/eatables" element={<EatableTable />} />
+        <Route path="/eatables/new" element={<NewEatableForm />} />
+        <Route path="/eatables/:id/edit" element={<EditEatableForm />} />
         <Route exact path='/' element={<Dashboard />} />
         <Route path='*' element={<NotFound />} />
       </Routes>

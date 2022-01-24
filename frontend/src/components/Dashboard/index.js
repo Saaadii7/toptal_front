@@ -9,12 +9,6 @@ import { Layout } from '../Layout';
 const Dashboard = () => {
   const user = getUser();
 
-  // if (user.admin){
-  //   return <Navigate to={'login'} />
-  // }
-
-  //if admin go to admin else go to user
-
   if(user && user.attributes.admin){
     return <AdminDashboard />
   }else{
