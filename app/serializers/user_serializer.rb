@@ -3,5 +3,5 @@
 class UserSerializer
   include JSONAPI::Serializer
 
-  attribute :name, :email, :daily_calorie_threshold
+  attribute :name, :email, :daily_calorie_threshold, :admin
 end
