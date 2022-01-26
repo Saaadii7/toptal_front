@@ -3,7 +3,7 @@ import React from 'react';
 const userDashboard = () => {
   return (
     <div>
-      Psath not found. 404!
+      User Dashboard
     </div>
   )
 }

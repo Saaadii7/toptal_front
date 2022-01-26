@@ -4,7 +4,7 @@ const AdminDashboard = () => {
 
   return (
     <div>
-      AdminDashboard not found. 404!
+      AdminDashboard
     </div>
   )
 }
